@@ -127,7 +127,6 @@ MIDDLEWARE = [
     'seahub.trusted_ip.middleware.LimitIpMiddleware'
 ]
 
-
 SITE_ROOT_URLCONF = 'seahub.urls'
 ROOT_URLCONF = 'seahub.utils.rooturl'
 SITE_ROOT = '/'
@@ -253,6 +252,7 @@ INSTALLED_APPS = [
     'seahub.file_participants',
     'seahub.repo_api_tokens',
     'seahub.abuse_reports',
+    'seahub.ocm',
 ]
 
 # Enable or disable view File Scan
