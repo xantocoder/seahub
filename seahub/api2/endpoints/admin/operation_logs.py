@@ -22,11 +22,12 @@ logger = logging.getLogger(__name__)
 
 def get_log_info(log_obj):
     isoformat_timestr = datetime_to_isoformat_timestr(log_obj.datetime)
+    detail = log_obj.detail.replace("'", '"')
     log_info = {
         "email": log_obj.email,
         "name": email2nickname(log_obj.email),
         "operation": log_obj.operation,
-        "detail": json.loads(log_obj.detail),
+        "detail": json.loads(detail),
         "datetime": isoformat_timestr,
     }
 
@@ -78,8 +79,11 @@ class AdminOperationLogs(APIView):
         admin_logs = AdminLog.objects.get_admin_logs(email=email, operation=operation)[offset:offset+per_page]
 
         for log in admin_logs:
-            log_info = get_log_info(log)
-            data.append(log_info)
+            try:
+                log_info = get_log_info(log)
+                data.append(log_info)
+            except Exception as e:
+                logger.error(e)
 
         result = {'data': data, 'total_count': total_count}
         resp = Response(result)
